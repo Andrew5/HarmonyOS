@@ -1,0 +1,24 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "鸿蒙first项目"
+    },
+    {
+      "name": "title",
+      "value": "应用程序的标题"
+    },
+    {
+      "name": "notice_text",
+      "value": "请输入用户名"
+    }
+  ]
+}
