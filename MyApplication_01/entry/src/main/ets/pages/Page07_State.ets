@@ -12,7 +12,7 @@ interface IUser{
 @Component
 struct Page07_State {
 
-  @State message: String = `Hello`;
+  @State message: string = `Hello`;
 // 简单数据构造
   @State myUser:IUser = {id:1,name:"123"}
 
@@ -61,11 +61,10 @@ struct Page07_State {
         .fontSize(20)
         .margin({ top: 10 })
 
+      // Children({user:$user})
+      Children({ titleSub: "测试单向传递", user: $user }) // 传递 @State user
 
-      Children({user:$user})
-
-      // Children({ title: "Harmony" })
-
+      // Children({ titleSub: this.message })
 
       // 刷新按钮
       Button('刷新时间')
