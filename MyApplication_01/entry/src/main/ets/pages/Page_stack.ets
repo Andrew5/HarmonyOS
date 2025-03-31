@@ -31,6 +31,7 @@ struct Page_stack{
     }
     .height("100%")
     .width("100%")
+    .backgroundColor(Color.Brown)
 
   }
 

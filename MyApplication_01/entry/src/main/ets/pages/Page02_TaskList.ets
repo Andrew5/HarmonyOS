@@ -1,9 +1,29 @@
 import { TaskStatisties } from '../view/TaskStatisties'
 import { TaskItem } from '../view/TaskItem'
 
+import { UserModel } from '../viewModel/UserModel';
+import { DateUtils, getRandomDateCurrentMonth } from  '../utils/DataFormat';
+import  CreateTaskModel, {TaskModel}  from  '../viewModel/TaskModel';
+
 @Entry
 @Component
 struct Page02_TaskList {
+  @State mytitle:string = "harmonyos"
+  @State tasks:Array<TaskModel> = []
+/**
+ * Prop: 单向数据通信 父组件传递值给子组件，子组件可以使用这个数据进行渲染，修改子组件数据，父组件无法同步
+ * Link: 双向数据通信 父组件传递值给子组件，子组件可以修改传递过去的数据进行渲染，修改子组件数据，父组件同步
+ *
+ * */
+  aboutToAppear(): void {
+    const array = CreateTaskModel.initData()
+    // console.log(JSON.stringify(array))
+    this.tasks = array
+
+    // const result = getRandomDateCurrentMonth()
+    // this.message = result
+  }
+
   build() {
     Stack() {
       // 以弹性布局为基础来理解Column:主轴：垂直方向  侧轴：水平
@@ -25,8 +45,13 @@ struct Page02_TaskList {
               .fontColor(Color.Brown)
               .fontSize(26)
               .margin({ top: 30 })
+            // Button("修改").onClick((event: ClickEvent) => {
+            //   this.mytitle = "鸿蒙开发"
+            //
+            // })
+            // TaskStatisties({title:this.mytitle})
 
-            TaskStatisties()
+            TaskStatisties({tasks:this.tasks})
             // 第三个模块
             Column({ space: 10 }) {
               Row() {
