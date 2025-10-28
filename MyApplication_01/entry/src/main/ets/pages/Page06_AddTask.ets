@@ -1,6 +1,8 @@
 import { loginComponentManager } from '@kit.AccountKit'
 import { CollaborationCameraStateDialog } from '@hms.collaboration.camera'
 import json from '@ohos.util.json'
+import { JSON } from '@kit.ArkTS'
+import { DateUtils } from  '../utils/DataFormat';
 
 // 不支持import写法 仅支持在同一个组件(同一个文件内)内使用
 // 容器默认通用属性可以提取
@@ -61,6 +63,22 @@ struct Page06_AddTask {
   // 可以支持object class string number boolean
   // 默认为私有变量 只能在组件中访问
   @State currentState:boolean = false
+
+
+  @State  taskName: string ="默认值"
+  @State
+  taskTime:string = ""
+  @State
+  taskBeginDate:string = ""
+  @State
+  taskEndDate:string = ""
+  @State
+  taskType: number = 1
+  @State
+  taskTile: number = 1
+
+
+
   // 组件内调用 公共样式
   @Styles
   titleText(){
@@ -86,6 +104,9 @@ struct Page06_AddTask {
           hour12: false // 24小时制
         });
         console.log("CalendarPickerDialog:", localDate);
+        console.log("CalendarPickerDialog:"+JSON.stringify(value));
+        const mydate: string = DateUtils.formatDate(value.getTime(), 'YYYY-MM-DD');
+        this.taskTime = mydate;
       }
     })
   }
@@ -123,7 +144,7 @@ struct Page06_AddTask {
           // .fontSize(16)
           // .fontColor($r("app.color.add_title_color"))
           TextInput({
-            placeholder: "请输入名字"
+            placeholder: "请输入任务名字",text:$$this.taskName
           })
             .inputStyles()
 
@@ -133,14 +154,14 @@ struct Page06_AddTask {
         .width("100%")
         .alignItems(HorizontalAlign.Start)
 
-        // 日期
+        // 存放日期
         Column() {
           Text("日期")
             .textStyles()
           // .fontSize(16)
           // .fontColor($r("app.color.add_title_color"))
           TextInput({
-            placeholder: "请输入日期"
+            placeholder: "请输入日期",text:$$this.taskTime
           })
             .inputStyles()
             .onClick(this.calendarChange)

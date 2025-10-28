@@ -1,6 +1,6 @@
 import { TaskStatisties } from '../view/TaskStatisties'
 import { TaskItem } from '../view/TaskItem'
-
+import {router} from "@kit.ArkUI"
 import { UserModel } from '../viewModel/UserModel';
 import { DateUtils, getRandomDateCurrentMonth } from  '../utils/DataFormat';
 import  CreateTaskModel, {TaskModel}  from  '../viewModel/TaskModel';
@@ -8,17 +8,13 @@ import  CreateTaskModel, {TaskModel}  from  '../viewModel/TaskModel';
 @Entry
 @Component
 struct Page02_TaskList {
-  @State mytitle:string = "harmonyos"
   @State tasks:Array<TaskModel> = []
-/**
- * Prop: 单向数据通信 父组件传递值给子组件，子组件可以使用这个数据进行渲染，修改子组件数据，父组件无法同步
- * Link: 双向数据通信 父组件传递值给子组件，子组件可以修改传递过去的数据进行渲染，修改子组件数据，父组件同步
- *
- * */
   aboutToAppear(): void {
+    console.log('aboutToAppear 执行了');
+
     const array = CreateTaskModel.initData()
-    // console.log(JSON.stringify(array))
     this.tasks = array
+    console.log(`[调试] 得到的数组数据为 ${JSON.stringify(this.tasks)} `);
 
     // const result = getRandomDateCurrentMonth()
     // this.message = result
@@ -45,11 +41,6 @@ struct Page02_TaskList {
               .fontColor(Color.Brown)
               .fontSize(26)
               .margin({ top: 30 })
-            // Button("修改").onClick((event: ClickEvent) => {
-            //   this.mytitle = "鸿蒙开发"
-            //
-            // })
-            // TaskStatisties({title:this.mytitle})
 
             TaskStatisties({tasks:this.tasks})
             // 第三个模块
@@ -73,7 +64,7 @@ struct Page02_TaskList {
               .width("100%")
 
               // task list
-              TaskItem()
+              TaskItem({tasks:this.tasks})
             }
             .width("100%")
             .margin({ top: 20, bottom: 40 })
@@ -124,7 +115,7 @@ struct Page02_TaskList {
       }
       .width("100%")
       .height("100%")
-      .backgroundColor("#ffee7206")
+      .backgroundColor("#ffe2e0e0")
       .alignItems(HorizontalAlign.Start)
       .padding({
         left: 10,
@@ -136,6 +127,14 @@ struct Page02_TaskList {
       Stack({ alignContent: Alignment.BottomEnd }) {
         Button().onClick((event: ClickEvent) => {
           console.log("输出")
+
+          router.pushUrl({
+            url:"pages/Page06_AddTask"
+          },router.RouterMode.Standard,(err)=>{
+            if (err){
+              console.log("路由跳转失败")
+            }
+          })
         })
           .width(40)
           .height(40)
@@ -146,6 +145,8 @@ struct Page02_TaskList {
         bottom: -600,
         right: -300
       })
+
     }
+
   }
 }

@@ -26,7 +26,6 @@ export class TaskModel {
     taskEndDate: string,
     taskType: number,
     taskTitle: number,
-    taskStatus: string = ""
   ) {
     this.id = id
     this.taskName = taskName
@@ -38,18 +37,19 @@ export class TaskModel {
     this.taskTitle = taskTitle
     this.updateTaskStatus()
   }
-
+// 根据当前任务时间，计算我们的任务状态
   updateTaskStatus() {
-    const currentDateStr: string = DateUtils.formatDate(new Date(), "YYYY-MM-DD");
-    const currentDate = new Date(currentDateStr);
-    // const taskDate = new Date(this.taskTime);
+    const currentDateString: string = DateUtils.formatDate(new Date().getTime(), "YYYY-MM-DD");
 
-    if (this.taskTime > currentDate.toDateString()) {
+    if (this.taskTime > currentDateString) {
       this.taskStatus = TaskStatusType.FUTURE;
-    } else if (this.taskTime === currentDate.toDateString()) {
+    } else if (this.taskTime === currentDateString) {
       this.taskStatus = TaskStatusType.DOING;
-    } else {
+    } else if (this.taskTime <= currentDateString) {
       this.taskStatus = TaskStatusType.UNDONE;
+    } else {
+      this.taskStatus = TaskStatusType.DONE;
+      console.log("currentDateString:", currentDateString);
     }
   }
 }
@@ -59,9 +59,11 @@ class CreateTaskModel {
   private tasks: TaskModel[] = [];
 
   initData() {
+    console.log("[CreateTaskModel] 开始初始化任务数据...");
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
+    console.log("[CreateTaskModel] 开始初始化任务数据...");
 
     for (let index = 0; index < 20; index++) {
       // 创建不同日期的任务示例
@@ -69,6 +71,7 @@ class CreateTaskModel {
       //   ? DateUtils.formatDate(today, "YYYY-MM-DD") // 今天
       //   : DateUtils.formatDate(tomorrow, "YYYY-MM-DD"); // 明天
       const fullDate = getRandomDateCurrentMonth()
+      console.log(`[CreateTaskModel] 生成任务 ${index + 1} 的随机日期: ${fullDate}`);
       const task = new TaskModel(
         `${index+1}`,
         `计划要完成的任务${index + 1}`,
@@ -78,10 +81,17 @@ class CreateTaskModel {
         "12:00",
         1,
         1,
-        "" // 状态由updateTaskStatus()设置
       );
+      console.log(`[CreateTaskModel] 创建任务:`, {
+        id: task.id,
+        taskName: task.taskName,
+        taskTime: task.taskTime,
+        taskMsg: task.taskMsg
+      });
       this.tasks.push(task);
     }
+    console.log("[CreateTaskModel] 任务初始化完成，共生成:", this.tasks.length, "个任务");
+    console.log("[CreateTaskModel] 生成的任务列表:", JSON.stringify(this.tasks, null, 2));
     return this.tasks;
   }
 }

@@ -2,6 +2,8 @@
   "src": [
     "pages/Index",
     "pages/DetailPage",
-    "pages/Page02_TaskList"
+    "pages/Page02_TaskList",
+    "pages/Page06_AddTask",
+    "pages/Page08_Detail"
   ]
 }

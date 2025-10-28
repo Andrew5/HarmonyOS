@@ -104,9 +104,10 @@ export class DateUtils {
  * 获得随机日期
  * */
 export function getRandomDateCurrentMonth(){
+  // 未来一个月到现在的日期
   let today = new Date()
   const  year = today.getFullYear()
-  let mouth = today.getMonth()
+  let mouth = today.getMonth() + 1
   let minDay = 1
   let maxDay = new Date(year,mouth + 1,0).getDate()
   let randomDay = Math.floor(Math.random() * (maxDay - minDay + 1)) + minDay

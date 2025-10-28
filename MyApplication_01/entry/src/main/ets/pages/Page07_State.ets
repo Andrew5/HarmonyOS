@@ -19,7 +19,7 @@ struct Page07_State {
   // // 方法一
   // @State user:UserModel = {id:1,name:"xiaoxia"}
   // // 方法二
-  @State user: UserModel = new UserModel(1, "xiaofeifie"); // ✅ 正确方式
+  @State user: UserModel = new UserModel(1, "父组件"); // ✅ 正确方式
 
   @State currentTime: string = DateUtils.formatDate(new Date());
   @State timestampTime: string = DateUtils.formatDate(1699999999999);
@@ -57,14 +57,25 @@ struct Page07_State {
         .margin({ top: 10 })
 
       // ISO 8601 字符串（带 Z） 国际化的时间交换格式
-      Text(`测试时间 ${this.timestampTime1}`)
+      Text(`测试时间 ${this.timestampTime1} 分割线`)
         .fontSize(20)
         .margin({ top: 10 })
 
-      // Children({user:$user})
-      Children({ titleSub: "测试单向传递", user: $user }) // 传递 @State user
-
-      // Children({ titleSub: this.message })
+      Text(this.user.name)
+        .onClick(() => {
+          this.user.name = "父组件修改"
+        })
+        .fontColor(Color.Blue)
+        .fontSize(16)
+        .margin({ top: 10, bottom: 10})
+        .borderRadius(5)
+        .borderWidth(1)
+        .borderColor(Color.Black)
+        .textAlign(TextAlign.Center)
+        .width(120)
+        .height(20)
+      // 数据传递于子组件
+      Children({ titleSub: "测试单向传递", user: this.user })
 
       // 刷新按钮
       Button('刷新时间')
